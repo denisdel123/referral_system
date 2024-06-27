@@ -2,14 +2,9 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-import random
-import string
 
 from userApp.constants import NULLABLE
-
-
-def generate_invite_code():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+from userApp.services import generate_invite_code
 
 
 class UserManager(BaseUserManager):
