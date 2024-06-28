@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:latest
+    restart: on-failure
+    expose:
+      - "6379"
+
+
+  db:
+    image: postgres
+    restart: on-failure
+    env_file:
+      - .env
+    expose:
+      - "5433"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    environment:
+      - PGPORT=5433
+    healthcheck:
+      test: ["CMD-SHELL", "-c", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+
+  app:
+    build: .
+    tty: true
+    ports:
+      - "8000:8000"
+    command: sh -c "poetry run python3 manage.py migrate && poetry run python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+
+  celery:
+    build: .
+    tty: true
+    command: sh -c "poetry run celery -A app worker -l INFO"
+    restart: on-failure
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - db
+      - app
+    env_file:
+      - .env
+
+
+volumes:
+  pg_data:
+
+
+

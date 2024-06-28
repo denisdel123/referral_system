@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -93,7 +93,8 @@ DATABASES = {
         'NAME': os.environ.get("POSTGRES_DB"),
         'USER': os.environ.get("POSTGRES_USER"),
         'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
-        'PORT': os.environ.get("POSTGRES_PORT")
+        'PORT': os.environ.get("POSTGRES_PORT"),
+        'HOST': os.environ.get("POSTGRES_HOST")
     }
 }
 
@@ -174,10 +175,10 @@ SIMPLE_JWT = {
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'  # Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")  # Например, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_RESULT_BACKEND")
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = "Australia/Tasmania"
