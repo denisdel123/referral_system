@@ -56,8 +56,6 @@ class UsersTestCase(APITestCase):
             response.status_code, status.HTTP_404_NOT_FOUND
         )
 
-
-
     def test_profile_user(self):
         url = reverse("userApp:user-profile")
         self.client.force_authenticate(self.user)
@@ -72,5 +70,3 @@ class UsersTestCase(APITestCase):
         self.assertEqual(
             data["phone_number"], self.user.phone_number
         )
-
-
