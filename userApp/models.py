@@ -47,7 +47,7 @@ class User(AbstractUser):
         **NULLABLE,
         verbose_name='Активированный инвайт код'
     )
-    verification_code = models.CharField(
+     = models.CharField(
         max_length=4,
         **NULLABLE,
         verbose_name='Код верификации'
