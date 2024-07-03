@@ -1,6 +1,5 @@
 import random
 import string
-import time
 
 
 def generate_verification_code():
@@ -9,5 +8,3 @@ def generate_verification_code():
 
 def generate_invite_code():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-
-
